@@ -28,10 +28,9 @@ if [ "$gpu" = 'intel' ]; then
 	apk add intel-media-driver
 elif [ "$gpu" = 'amd' ]; then
 	echo "Installing amd drivers!"
-	apk add amd-media-driver
+	apk add linux-firmware-amdgpu
 elif [ "$gpu" = 'nvidia' ]; then
 	echo "Installing nvidia drivers!"
-	apk add nvidia-media-driver
 fi 
 echo "Setting up Sway!"
 setup-desktop sway
@@ -46,14 +45,17 @@ rc-service greetd start
 mkdir -p /home/$username/.config/sway
 cp config /home/$username/.config/sway/
 #Setup bluetooth
+echo "Setting up bluetooth!"
 apk add bluez
 modprobe btusb
 adduser $username lp
 rc-service bluetooth start
 rc-update add bluetooth default
 #Add fonts
+echo "Setting up fonts!"
 apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
 #Add microcode
+echo "Setting up microcode updates!"
 if [ "$cpu" = 'intel' ]; then
 	echo "Installing intel microcode!"
 	apk add intel-ucode
@@ -62,9 +64,11 @@ elif [ "$cpu" = 'amd' ]; then
 	apk add amd-ucode
 fi
 #Setup printers
+echo "Setting up printing!"
 apk add cups cups-pdf cups-filters
 rc-update add cupsd boot
 #Setup Firewall
+echo "Setting up firewall!"
 apk add ip6tables ufw
 ufw default deny incoming
 ufw default deny outgoing
@@ -77,10 +81,12 @@ ufw allow out 80/tcp  # allow outgoing HTTP traffic
 ufw enable
 rc-update add ufw
 #Setup man pages
+echo "Setting up man pages!"
 apk add mandoc mandoc-apropos
 #Installs docs for all installed packages with man pages
 apk add docs
 #Setup podman and distrobox
+echo "Setting up podman and distrobox!"
 apk add podman distrobox
 modprobe tun
 echo tun >>/etc/modules
