@@ -100,4 +100,4 @@ rc-update add local default
 rc-service local start
 echo "Remember to configure sway for your specific system"
 #Install other packages
-apk
+podman login ghcr.io
