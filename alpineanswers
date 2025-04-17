@@ -23,7 +23,7 @@ NSOPTS="-d example.com 8.8.8.8"
 TIMEZONEOPTS="-z Europe/London"
 
 # set http/ftp proxy
-#PROXYOPTS="http://webproxy:8080"
+#PROXYOPTS="none"
 
 # Add a random mirror
 APKREPOSOPTS="-f"
@@ -35,7 +35,7 @@ SSHDOPTS="-c openssh"
 NTPOPTS="-c openntpd"
 
 # Use /dev/sda as a data disk
-DISKOPTS="-m cryptsys /dev/sda"
+DISKOPTS="-m cryptsys /dev/vda"
 
 # Setup in /media/sdb1
 #LBUOPTS="/media/sdb1"
