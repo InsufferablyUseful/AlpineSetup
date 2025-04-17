@@ -8,7 +8,7 @@ echo $gpu
 
 #Enable community repo
 echo "Setting up apk!"
-setup-apkrepos -cf
+#setup-apkrepos -cf
 #Setup admin user
 echo "Setting up admin account!"
 adduser $username wheel
