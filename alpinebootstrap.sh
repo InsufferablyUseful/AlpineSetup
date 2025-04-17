@@ -24,10 +24,13 @@ rc-service dbus start
 echo "Setting up GPU!"
 apk add mesa-dri-gallium mesa-va-gallium
 if [ "$gpu" = 'intel' ]; then
+	echo "Installing intel drivers!"
 	apk add intel-media-driver
 elif [ "$gpu" = 'amd' ]; then
+	echo "Installing amd drivers!"
 	apk add amd-media-driver
 elif [ "$gpu" = 'nvidia' ]; then
+	echo "Installing nvidia drivers!"
 	apk add nvidia-media-driver
 fi 
 echo "Setting up Sway!"
@@ -52,8 +55,10 @@ rc-update add bluetooth default
 apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
 #Add microcode
 if [ "$cpu" = 'intel' ]; then
+	echo "Installing intel microcode!"
 	apk add intel-ucode
 elif [ "$cpu" = 'amd' ]; then
+	echo "Installing amd microcode!"
 	apk add amd-ucode
 fi
 #Setup printers
