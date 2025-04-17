@@ -23,14 +23,14 @@ rc-update add dbus
 rc-service dbus start
 echo "Setting up GPU!"
 apk add mesa-dri-gallium mesa-va-gallium
-if [$gpu = 'intel']; then
+if [ "$gpu" = 'intel' ]; then
 	apk add intel-media-driver
-elif [$gpu = 'amd']; then
+elif [ "$gpu" = 'amd' ]; then
 	apk add amd-media-driver
-elif [$gpu = 'nvidia']; then
+elif [ "$gpu" = 'nvidia' ]; then
 	apk add nvidia-media-driver
 fi 
-"Setting up Sway!"
+echo "Setting up Sway!"
 setup-desktop sway
 #Add tuigreet display manager and configure it
 apk add greetd greetd-tuigreet
@@ -51,9 +51,9 @@ rc-update add bluetooth default
 #Add fonts
 apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
 #Add microcode
-if [$cpu = 'intel']; then
+if [ "$cpu" = 'intel' ]; then
 	apk add intel-ucode
-elif [$cpu = 'amd']; then
+elif [ "$cpu" = 'amd' ]; then
 	apk add amd-ucode
 fi
 #Setup printers
