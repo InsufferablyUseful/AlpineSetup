@@ -35,7 +35,7 @@ SSHDOPTS="-c openssh"
 NTPOPTS="-c openntpd"
 
 # Use /dev/sda as a data disk
-DISKOPTS="-m crypt /dev/vda"
+#DISKOPTS="-m crypt /dev/vda"
 
 # Setup in /media/sdb1
 #LBUOPTS="/media/sdb1"
