@@ -23,7 +23,7 @@ NSOPTS="-d example.com 8.8.8.8"
 TIMEZONEOPTS="-z Europe/London"
 
 # set http/ftp proxy
-#PROXYOPTS="none"
+PROXYOPTS="none"
 
 # Add a random mirror
 APKREPOSOPTS="-f"
