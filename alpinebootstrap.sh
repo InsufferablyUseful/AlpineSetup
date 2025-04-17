@@ -94,6 +94,10 @@ echo tun >>/etc/modules
 echo $username:100000:65536 >/etc/subuid
 echo $username:100000:65536 >/etc/subgid
 echo "Remember to set root as shared for distrobox to work!"
+cp mount-rshared.start /etc/local.d/
+chmod +x /etc/local.d/mount-rshared.start
+rc-update add local default
+rc-service local start
 echo "Remember to configure sway for your specific system"
 #Install other packages
-apk add git
+apk
