@@ -2,19 +2,26 @@
 username=$1
 cpu=$2
 gpu=$3
+echo $username
+echo $cpu
+echo $gpu
 
 #Enable community repo
+echo "Setting up apk!"
 setup-apkrepos -cf
 #Setup admin user
+echo "Setting up admin account!"
 adduser $username wheel
 apk add doas
 echo "permit persist :wheel" >> /etc/doas.d/doas.conf
 chmod o-rx /home/$username
 #Configure for desktop use
+echo "Setting up eudev!"
 setup-devd udev
 apk add dbus
 rc-update add dbus
 rc-service dbus start
+echo "Setting up GPU!"
 apk add mesa-dri-gallium mesa-va-gallium
 if [$gpu = 'intel']; then
 	apk add intel-media-driver
@@ -23,6 +30,7 @@ elif [$gpu = 'amd']; then
 elif [$gpu = 'nvidia']; then
 	apk add nvidia-media-driver
 fi 
+"Setting up Sway!"
 setup-desktop sway
 #Add tuigreet display manager and configure it
 apk add greetd greetd-tuigreet

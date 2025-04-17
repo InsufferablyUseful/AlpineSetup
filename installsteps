@@ -1,0 +1,6 @@
+#Initialise networking
+setup-interfaces
+rc-service networking --quiet start &
+#Setup apk and get git
+setup-apkrepos
+apk add git
