@@ -87,6 +87,8 @@ apk add docs
 #Setup podman and distrobox
 echo "Setting up podman and distrobox!"
 apk add podman distrobox
+rc-update add cgroups
+rc-service cgroups start
 modprobe tun
 echo tun >>/etc/modules
 echo $username:100000:65536 >/etc/subuid
