@@ -7,8 +7,8 @@ echo $cpu
 echo $gpu
 
 #Enable community repo
-echo "Setting up apk!"
-#setup-apkrepos -cf
+echo "Getting fastest mirror and enabling community repo!"
+setup-apkrepos -cf
 #Setup admin user
 echo "Setting up admin account!"
 adduser $username wheel
@@ -31,6 +31,7 @@ elif [ "$gpu" = 'amd' ]; then
 	apk add linux-firmware-amdgpu
 elif [ "$gpu" = 'nvidia' ]; then
 	echo "Installing nvidia drivers!"
+#Raspberry pi and over devices have own drivers, nothing to do here
 fi 
 echo "Setting up Sway!"
 setup-desktop sway
@@ -100,6 +101,6 @@ rc-update add local default
 rc-service local start
 echo "Remember to configure sway for your specific system"
 #Install other packages
-apk add bash shadow
+apk add bash shadow foot
 chsh -s /bin/bash "$username"
 chsh -s /bin/bash root
