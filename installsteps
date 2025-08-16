@@ -5,4 +5,8 @@ Log in as root
 Install git
 Clone repo and make alpinebootstrap executable
 Run alpinebootstrap.sh with sh alpinebootstrap.sh
-
+Create distrobox boxkit container AlpineTerminal
+Unlock bitwarden export BW_SESSION=$(bw login --raw)
+Chezmoi apply
+Relog
+Dotfiles, scripts and aliases are now available.
