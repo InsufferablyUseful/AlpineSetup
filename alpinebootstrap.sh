@@ -11,7 +11,8 @@ echo "Getting fastest mirror and enabling community repo!"
 setup-apkrepos -cf
 #Setup admin user
 echo "Setting up admin account!"
-adduser $username wheel
+adduser $username
+addgroup $username wheel
 apk add doas
 echo "permit persist :wheel" >> /etc/doas.d/doas.conf
 chmod o-rx /home/$username

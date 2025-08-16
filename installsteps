@@ -1,6 +1,8 @@
-#Initialise networking
-setup-interfaces
-rc-service networking --quiet start &
-#Setup apk and get git
-setup-apkrepos
-apk add git
+Prep installation media
+Run alpine-setup. Do not create a regular user. Choose disk based install(or encrypted disk based)
+Reboot
+Log in as root
+Install git
+Clone repo and make alpinebootstrap executable
+Run alpinebootstrap.sh with sh alpinebootstrap.sh
+
