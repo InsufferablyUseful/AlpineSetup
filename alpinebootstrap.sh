@@ -39,6 +39,7 @@ setup-desktop sway
 apk add greetd greetd-tuigreet
 cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
+touch /etc/greetd/config.toml
 sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
 rc-update add greetd
