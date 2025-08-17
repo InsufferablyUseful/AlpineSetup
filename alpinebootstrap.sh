@@ -44,7 +44,7 @@ cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
 mkdir /etc/greetd
 touch /etc/greetd/config.toml
-sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?'/" /etc/greetd/config.toml
+sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'poweroff' --power-reboot 'reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
 rc-update add greetd
 mkdir -p /home/$username/.config/sway
