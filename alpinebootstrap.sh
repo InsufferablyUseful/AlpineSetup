@@ -1,8 +1,6 @@
 #!bin/bash
 username=$1
 displayname=$2
-cpu=$2
-gpu=$3
 if [ "$username" = '' ]; then
         echo "Username not set. Quitting!"
         exit 1
@@ -11,77 +9,32 @@ if [ "$displayname" = '' ]; then
         echo "displayname not set. Setting to $username !"
         exit 1
 fi
-
-#Enable community repo
-#echo "Getting fastest mirror and enabling community repo!"
-#setup-apkrepos -cf
 #Setup admin user
 echo "Setting up admin account!"
 setup-user -a -f $displayname $username
 #Configure for desktop use
-echo "Setting up eudev!"
-setup-devd udev
-apk add dbus
 rc-update add dbus
 rc-service dbus start
-echo "Setting up GPU!"
-apk add mesa-dri-gallium mesa-va-gallium
-if [ "$gpu" = 'intel' ]; then
-	echo "Installing intel drivers!"
-	apk add intel-media-driver
-elif [ "$gpu" = 'amd' ]; then
-	echo "Installing amd drivers!"
-	apk add linux-firmware-amdgpu
-elif [ "$gpu" = 'nvidia' ]; then
-	echo "Installing nvidia drivers!"
-#Raspberry pi and over devices have own drivers, nothing to do here
-fi 
-echo "Setting up Sway!"
-setup-desktop sway
-#Add tuigreet display manager and configure it
-apk add greetd greetd-tuigreet
+#Configure tuigreet 
 cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
 mkdir /etc/greetd
 touch /etc/greetd/config.toml
 sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
-cat > /etc/doas.conf <<EOF
-# Allow to shutdown/reboot without password
-permit nopass greetd as root cmd /sbin/poweroff
-permit nopass greetd as root cmd /sbin/reboot
-permit nopass greetd as root cmd /sbin/halt
-EOF
 rc-update add greetd
+#Configure Sway with a minimal viable config
 mkdir -p /home/$username/.config/sway
 cp config /home/$username/.config/sway/
 chown -R /home/$username/.config $username
 #Setup bluetooth
-echo "Setting up bluetooth!"
-apk add bluez
 modprobe btusb
 adduser $username lp
 rc-service bluetooth start
 rc-update add bluetooth default
-#Add fonts
-echo "Setting up fonts!"
-apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
-#Add microcode
-echo "Setting up microcode updates!"
-if [ "$cpu" = 'intel' ]; then
-	echo "Installing intel microcode!"
-	apk add intel-ucode
-elif [ "$cpu" = 'amd' ]; then
-	echo "Installing amd microcode!"
-	apk add amd-ucode
-fi
 #Setup printers
-echo "Setting up printing!"
-apk add cups cups-pdf cups-filters
 rc-update add cupsd boot
-#Setup Firewall
-echo "Setting up firewall!"
-apk add ip6tables ufw
+#Setup Firewall for ssh access, NTP HTTP and DNS 
 ufw default deny incoming
 ufw default deny outgoing
 ufw limit SSH         # open SSH port and protect against brute-force login attacks
@@ -92,14 +45,7 @@ ufw allow out DNS     # allow outgoing DNS
 ufw allow out 80/tcp  # allow outgoing HTTP traffic
 ufw enable
 rc-update add ufw
-#Setup man pages
-echo "Setting up man pages!"
-apk add mandoc mandoc-apropos
-#Installs docs for all installed packages with man pages
-apk add docs
-#Setup podman and distrobox
-echo "Setting up podman and distrobox!"
-apk add podman distrobox
+#Configure distrobox and podman for rootless use 
 rc-update add cgroups
 rc-service cgroups start
 modprobe tun
@@ -111,8 +57,6 @@ cp mount-rshared.start /etc/local.d/
 chmod +x /etc/local.d/mount-rshared.start
 rc-update add local default
 rc-service local start
-echo "Remember to configure sway for your specific system"
-#Install other packages
-apk add bash shadow foot
+#Change user and root shells to bash
 chsh -s /bin/bash "$username"
 chsh -s /bin/bash root
