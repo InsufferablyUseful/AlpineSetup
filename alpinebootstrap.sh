@@ -1,21 +1,23 @@
 #!bin/bash
 username=$1
+displayname=$2
 cpu=$2
 gpu=$3
-echo $username
-echo $cpu
-echo $gpu
+if [ "$username" = '' ]; then
+        echo "Username not set. Quitting!"
+        exit 1
+fi
+if [ "$displayname" = '' ]; then
+        echo "displayname not set. Setting to $username !"
+        exit 1
+fi
 
 #Enable community repo
-echo "Getting fastest mirror and enabling community repo!"
-setup-apkrepos -cf
+#echo "Getting fastest mirror and enabling community repo!"
+#setup-apkrepos -cf
 #Setup admin user
 echo "Setting up admin account!"
-adduser $username
-addgroup $username wheel
-apk add doas
-echo "permit persist :wheel" >> /etc/doas.d/doas.conf
-chmod o-rx /home/$username
+setup-user -a -f $displayname $username
 #Configure for desktop use
 echo "Setting up eudev!"
 setup-devd udev
@@ -40,6 +42,7 @@ setup-desktop sway
 apk add greetd greetd-tuigreet
 cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
+mkdir /etc/greetd
 touch /etc/greetd/config.toml
 sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
