@@ -44,8 +44,14 @@ cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
 mkdir /etc/greetd
 touch /etc/greetd/config.toml
-sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'poweroff' --power-reboot 'reboot'/" /etc/greetd/config.toml
+sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
+cat > /etc/doas.conf <<EOF
+# Allow to shutdown/reboot without password
+permit nopass greetd as root cmd /sbin/poweroff
+permit nopass greetd as root cmd /sbin/reboot
+permit nopass greetd as root cmd /sbin/halt
+EOF
 rc-update add greetd
 mkdir -p /home/$username/.config/sway
 cp config /home/$username/.config/sway/
