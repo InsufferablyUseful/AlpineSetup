@@ -5,6 +5,7 @@ Log in as root
 Install git
 Clone repo and make alpinebootstrap executable
 Run alpinebootstrap.sh with sh alpinebootstrap.sh
+Change created account password
 Create distrobox boxkit container AlpineTerminal
 Unlock bitwarden export BW_SESSION=$(bw login --raw)
 Chezmoi apply

@@ -49,6 +49,7 @@ sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
 rc-update add greetd
 mkdir -p /home/$username/.config/sway
 cp config /home/$username/.config/sway/
+chown -R /home/$username/.config $username
 #Setup bluetooth
 echo "Setting up bluetooth!"
 apk add bluez
