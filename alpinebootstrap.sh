@@ -22,6 +22,9 @@ chmod +x /usr/local/bin/sway-run
 touch /etc/greetd/config.toml
 sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
+#tuigreet power and restart functions need to be noninteractive, so set doas to allow those commands with no password for greetd
+echo "permit nopass greetd as root cmd /sbin/poweroff" >> /etc/doas.conf
+echo "permit nopass greetd as root cmd /sbin/reboot" >> /etc/doas.conf
 rc-update add greetd
 #Configure Sway with a minimal viable config
 mkdir -p /home/$username/.config/sway
@@ -47,11 +50,11 @@ ufw enable
 rc-update add ufw
 #Configure distrobox and podman for rootless use 
 rc-update add cgroups
-rc-service cgroups start
+#rc-service cgroups start
 modprobe tun
 echo tun >>/etc/modules
-echo $username:100000:65536 >/etc/subuid
-echo $username:100000:65536 >/etc/subgid
+echo $username:100000:65536 >> /etc/subuid
+echo $username:100000:65536 >> /etc/subgid
 echo "Remember to set root as shared for distrobox to work!"
 cp mount-rshared.start /etc/local.d/
 chmod +x /etc/local.d/mount-rshared.start
