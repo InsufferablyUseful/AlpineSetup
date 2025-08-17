@@ -34,7 +34,7 @@ apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-
 #Printers
 apk add cups
 #Firewall
-apk add ip6tables font-awesome
+apk add ip6tables ufw 
 #Man pages 
 apk add mandoc mandoc-apropos
 #Podman and distrobox

@@ -14,11 +14,11 @@ echo "Setting up admin account!"
 setup-user -a -f $displayname $username
 #Configure for desktop use
 rc-update add dbus
-rc-service dbus start
+#rc-service dbus start
 #Configure tuigreet 
 cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
-mkdir /etc/greetd
+#mkdir /etc/greetd
 touch /etc/greetd/config.toml
 sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
@@ -26,7 +26,7 @@ rc-update add greetd
 #Configure Sway with a minimal viable config
 mkdir -p /home/$username/.config/sway
 cp config /home/$username/.config/sway/
-chown -R /home/$username/.config $username
+chown -R evelyn /home/$username/.config 
 #Setup bluetooth
 modprobe btusb
 adduser $username lp
