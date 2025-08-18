@@ -20,11 +20,12 @@ cp sway-run /usr/local/bin/sway-run
 chmod +x /usr/local/bin/sway-run
 #mkdir /etc/greetd
 touch /etc/greetd/config.toml
-sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
+sed -i "s/agreety/tuigreet -t -r --asterisks -g 'who ARE you?' --power-no-setsid --power-shutdown 'doas poweroff' --power-reboot 'doas reboot'/" /etc/greetd/config.toml
 sed -i "s/\/bin\/sh/sway-run/" /etc/greetd/config.toml
 #tuigreet power and restart functions need to be noninteractive, so set doas to allow those commands with no password for greetd
 echo "permit nopass greetd as root cmd /sbin/poweroff" >> /etc/doas.conf
 echo "permit nopass greetd as root cmd /sbin/reboot" >> /etc/doas.conf
+addgroup greetd wheel
 rc-update add greetd
 #Configure Sway with a minimal viable config
 mkdir -p /home/$username/.config/sway
